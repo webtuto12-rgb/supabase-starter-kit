@@ -104,11 +104,7 @@ function Home() {
 
   return (
     <>
-      <HeroEntry />
-
-      <div id="categories" className="scroll-mt-20">
-        <CategoryShowroom categories={categories} />
-      </div>
+      <HeroEntry categories={categories} />
 
       <section className="mx-auto mt-6 max-w-7xl px-4">
         <div className="relative overflow-hidden rounded-3xl border border-border/70">

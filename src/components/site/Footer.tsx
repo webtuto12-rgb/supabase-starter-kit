@@ -162,10 +162,6 @@ export function Footer() {
               <Truck className="mt-0.5 size-4 shrink-0 text-primary" aria-hidden="true" />
               Flat delivery {formatPrice(DELIVERY_CHARGE)}
             </li>
-            <li className="flex items-start gap-2.5">
-              <ShieldCheck className="mt-0.5 size-4 shrink-0 text-primary" aria-hidden="true" />
-              Manufacturer warranty
-            </li>
           </ul>
         </div>
       </div>

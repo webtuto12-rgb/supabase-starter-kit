@@ -173,3 +173,27 @@ export const createSignedImageUrl = createServerFn({ method: "POST" })
     if (error) throw new Error(error.message);
     return { url: signed?.signedUrl ?? null };
   });
+
+export const claimAdminRole = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { data: settings, error: settingsError } = await supabaseAdmin
+      .from("site_content")
+      .select("data")
+      .eq("content_key", "store-settings")
+      .maybeSingle();
+    if (settingsError) throw new Error(settingsError.message);
+
+    const allowedEmail = String(
+      (settings?.data as Record<string, unknown> | null)?.["admin_email"] ?? "",
+    ).toLowerCase();
+    const email = String(context.claims?.["email"] ?? "").toLowerCase();
+    if (!allowedEmail || email !== allowedEmail) throw new Error("Forbidden");
+
+    const { error } = await supabaseAdmin
+      .from("user_roles")
+      .upsert({ user_id: context.userId, role: "admin" }, { onConflict: "user_id,role" });
+    if (error) throw new Error(error.message);
+    return { ok: true };
+  });

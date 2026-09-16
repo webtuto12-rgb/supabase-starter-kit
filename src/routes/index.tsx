@@ -1,9 +1,16 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { ArrowRight, BadgeCheck, Headphones, Star, Truck, Wallet } from "lucide-react";
+import {
+  ArrowRight,
+  BadgeCheck,
+  Headphones,
+  MessageCircle,
+  Star,
+  Truck,
+  Wallet,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { storefrontQuery } from "@/lib/queries";
-import { CategoryShowroom } from "@/components/site/CategoryShowroom";
 import { HeroEntry } from "@/components/site/HeroEntry";
 import { ProductCard } from "@/components/site/ProductCard";
 import { WhatsAppButton } from "@/components/site/WhatsAppButton";
@@ -31,17 +38,19 @@ export const Route = createFileRoute("/")({
 });
 
 function Section({
+  id,
   title,
   subtitle,
   products,
 }: {
+  id?: string;
   title: string;
   subtitle: string;
   products: Product[];
 }) {
   if (products.length === 0) return null;
   return (
-    <section className="mx-auto max-w-7xl px-4 py-10">
+    <section id={id} className="mx-auto max-w-7xl scroll-mt-20 px-4 py-10">
       <div className="mb-5 flex items-end justify-between gap-4">
         <div>
           <h2 className="font-display text-xl font-bold sm:text-2xl">{title}</h2>
@@ -78,11 +87,18 @@ const REVIEWS = [
 ];
 
 const WHY = [
-  { icon: BadgeCheck, title: "Genuine products", text: "Authentic stock with manufacturer warranty." },
-  { icon: Truck, title: "Island-wide delivery", text: `Flat ${formatPrice(DELIVERY_CHARGE)} delivery on every order.` },
+  { icon: BadgeCheck, title: "Genuine ICT products", text: "Authentic stock with manufacturer warranty." },
+  {
+    icon: Truck,
+    title: "Island-wide delivery",
+    text: `Flat ${formatPrice(DELIVERY_CHARGE)} delivery charge on every order, paid by the customer.`,
+  },
   { icon: Wallet, title: "Cash on delivery", text: "Pay only when your order reaches your door." },
-  { icon: Headphones, title: "Real support", text: "Talk to a specialist on WhatsApp before you buy." },
+  { icon: MessageCircle, title: "WhatsApp ordering", text: "Send your order on WhatsApp in one tap." },
+  { icon: Headphones, title: "Customer support", text: "Talk to a specialist before and after you buy." },
 ];
+
+const BRANDS = ["HP", "Dell", "Lenovo", "Asus", "Logitech", "TP-Link", "Canon", "Epson"];
 
 function Home() {
   const { data } = useSuspenseQuery(storefrontQuery);
@@ -95,11 +111,7 @@ function Home() {
 
   return (
     <>
-      <HeroEntry />
-
-      <div id="categories" className="scroll-mt-20">
-        <CategoryShowroom categories={categories} />
-      </div>
+      <HeroEntry categories={categories} />
 
       <section className="mx-auto mt-6 max-w-7xl px-4">
         <div className="relative overflow-hidden rounded-3xl border border-border/70">
@@ -131,34 +143,38 @@ function Home() {
         </div>
       </section>
 
-      <Section title="Featured products" subtitle="Handpicked by our team" products={featured} />
+      <Section
+        id="featured"
+        title="Featured products"
+        subtitle="Handpicked by our team"
+        products={featured}
+      />
       <Section title="Best sellers" subtitle="What customers buy most" products={bestSellers} />
       <Section title="New arrivals" subtitle="Fresh in the showroom" products={newArrivals} />
-      <Section title="Special offers" subtitle="Limited-time reduced prices" products={offers} />
+      <Section title="Special offers" subtitle="Discounts, bundles and limited deals" products={offers} />
 
       <section className="mx-auto max-w-7xl px-4 py-10">
-        <h2 className="font-display text-xl font-bold sm:text-2xl">Popular categories</h2>
-        <ul className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
-          {categories.map((category) => (
-            <li key={category.id}>
+        <h2 className="font-display text-xl font-bold sm:text-2xl">Shop by brand</h2>
+        <p className="mt-1 text-sm text-muted-foreground">Trusted names we stock every day</p>
+        <ul className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-8">
+          {BRANDS.map((brand) => (
+            <li key={brand}>
               <Link
-                to="/category/$slug"
-                params={{ slug: category.slug }}
-                className="flex h-full items-center gap-3 rounded-2xl border border-border/70 bg-card p-4 transition-colors hover:border-primary/50"
+                to="/products"
+                search={{ q: brand }}
+                className="flex h-16 items-center justify-center rounded-2xl border border-border/70 bg-card px-3 text-sm font-semibold shadow-sm transition-colors hover:border-primary/50 hover:text-primary"
               >
-                <span className="text-2xl" aria-hidden="true">
-                  {category.icon}
-                </span>
-                <span className="text-sm font-semibold leading-snug">{category.category_name}</span>
+                {brand}
               </Link>
             </li>
           ))}
         </ul>
       </section>
 
+
       <section className="mx-auto max-w-7xl px-4 py-10">
         <h2 className="font-display text-xl font-bold sm:text-2xl">Why choose us</h2>
-        <ul className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        <ul className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
           {WHY.map((item) => (
             <li key={item.title} className="rounded-2xl border border-border/70 bg-card p-5">
               <item.icon className="size-6 text-accent" aria-hidden="true" />

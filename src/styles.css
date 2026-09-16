@@ -207,6 +207,121 @@
   animation: float-soft 6s ease-in-out infinite;
 }
 
+/* ---------- Cinematic hero entry ---------- */
+
+@keyframes float-tilt-a {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(-7deg);
+  }
+  50% {
+    transform: translate3d(6px, -18px, 0) rotate(-3deg);
+  }
+}
+
+@keyframes float-tilt-b {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(8deg);
+  }
+  50% {
+    transform: translate3d(-7px, 16px, 0) rotate(4deg);
+  }
+}
+
+@keyframes hero-rise {
+  from {
+    opacity: 0;
+    transform: translateY(26px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes glow-breathe {
+  0%,
+  100% {
+    opacity: 0.45;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.08);
+  }
+}
+
+@keyframes sheen-sweep {
+  0% {
+    transform: translateX(-120%) rotate(18deg);
+  }
+  60%,
+  100% {
+    transform: translateX(220%) rotate(18deg);
+  }
+}
+
+@utility float-a {
+  animation: float-tilt-a 11s ease-in-out infinite;
+}
+
+@utility float-b {
+  animation: float-tilt-b 13s ease-in-out infinite;
+}
+
+@utility hero-rise {
+  opacity: 0;
+  animation: hero-rise 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@utility glow-breathe {
+  animation: glow-breathe 9s ease-in-out infinite;
+}
+
+@utility sheen {
+  position: relative;
+  overflow: hidden;
+  &::after {
+    content: "";
+    position: absolute;
+    top: -60%;
+    left: 0;
+    width: 45%;
+    height: 220%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      color-mix(in oklab, white 22%, transparent),
+      transparent
+    );
+    animation: sheen-sweep 7s ease-in-out infinite;
+  }
+}
+
+@utility tech-grid {
+  background-image:
+    linear-gradient(color-mix(in oklab, white 5%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in oklab, white 5%, transparent) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(ellipse at 50% 45%, black 10%, transparent 72%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .float-a,
+  .float-b,
+  .animate-float,
+  .glow-breathe,
+  .sheen::after {
+    animation: none !important;
+  }
+  .hero-rise {
+    opacity: 1;
+    animation: none !important;
+  }
+}
+
+
 @media print {
   .no-print {
     display: none !important;

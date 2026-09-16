@@ -4,6 +4,7 @@ import { ArrowRight, BadgeCheck, Headphones, Star, Truck, Wallet } from "lucide-
 import { Button } from "@/components/ui/button";
 import { storefrontQuery } from "@/lib/queries";
 import { CategoryShowroom } from "@/components/site/CategoryShowroom";
+import { HeroEntry } from "@/components/site/HeroEntry";
 import { ProductCard } from "@/components/site/ProductCard";
 import { WhatsAppButton } from "@/components/site/WhatsAppButton";
 import { DELIVERY_CHARGE, formatPrice, type Product } from "@/lib/store";
@@ -94,7 +95,11 @@ function Home() {
 
   return (
     <>
-      <CategoryShowroom categories={categories} />
+      <HeroEntry />
+
+      <div id="categories" className="scroll-mt-20">
+        <CategoryShowroom categories={categories} />
+      </div>
 
       <section className="mx-auto mt-6 max-w-7xl px-4">
         <div className="relative overflow-hidden rounded-3xl border border-border/70">

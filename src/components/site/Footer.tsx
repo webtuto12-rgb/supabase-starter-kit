@@ -156,15 +156,6 @@ export function Footer() {
               </a>
             </li>
             <li className="flex items-start gap-2.5">
-              <Mail className="mt-0.5 size-4 shrink-0 text-primary" aria-hidden="true" />
-              <a
-                href="mailto:ameerjezme@gmail.com"
-                className="break-all transition-colors hover:text-primary"
-              >
-                ameerjezme@gmail.com
-              </a>
-            </li>
-            <li className="flex items-start gap-2.5">
               <MapPin className="mt-0.5 size-4 shrink-0 text-primary" aria-hidden="true" />
               Delivery across Sri Lanka
             </li>

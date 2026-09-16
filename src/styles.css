@@ -345,6 +345,12 @@
   align-self: flex-end;
   margin-right: 0.55rem;
 }
+/* Keep hamburgers mobile-only: the custom display below would otherwise beat md:hidden */
+@media (min-width: 48rem) {
+  .burger {
+    display: none !important;
+  }
+}
 .burger[data-open="true"] .burger-bar {
   background-color: var(--primary);
 }

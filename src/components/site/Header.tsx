@@ -45,6 +45,7 @@ export function Header() {
   }
 
   return (
+    <>
     <header className="no-print sticky top-0 z-50 border-b border-border/60 bg-background/80 backdrop-blur-xl">
       <div className="mx-auto flex h-16 max-w-7xl items-center gap-3 px-4">
         <Link to="/" className="flex items-center gap-2 font-display text-lg font-bold">
@@ -145,9 +146,11 @@ export function Header() {
         </div>
       )}
 
-      {/* Slide-in menu drawer */}
+    </header>
+
+      {/* Slide-in menu drawer (outside header so backdrop-blur doesn't trap fixed positioning) */}
       <div
-        className={`fixed inset-0 z-50 md:hidden ${menuOpen ? "" : "pointer-events-none"}`}
+        className={`fixed inset-0 z-[60] md:hidden ${menuOpen ? "" : "pointer-events-none"}`}
         aria-hidden={!menuOpen}
       >
         <div
@@ -240,6 +243,6 @@ export function Header() {
           </div>
         </aside>
       </div>
-    </header>
+    </>
   );
 }

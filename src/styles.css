@@ -161,8 +161,12 @@
 }
 
 @utility glass-panel {
-  background: color-mix(in oklab, var(--surface) 70%, transparent);
-  border: 1px solid color-mix(in oklab, white 12%, transparent);
+  background: linear-gradient(
+    160deg,
+    color-mix(in oklab, white 88%, transparent),
+    color-mix(in oklab, var(--primary) 6%, white)
+  );
+  border: 1px solid color-mix(in oklab, var(--primary) 16%, transparent);
   backdrop-filter: blur(18px);
   box-shadow: var(--shadow-float);
 }

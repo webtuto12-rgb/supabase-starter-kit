@@ -3,7 +3,6 @@ import {
   ArrowRight,
   BadgeCheck,
   Headphones,
-  Mail,
   MapPin,
   MessageCircle,
   Phone,
@@ -153,15 +152,6 @@ export function Footer() {
               <Phone className="mt-0.5 size-4 shrink-0 text-primary" aria-hidden="true" />
               <a href="tel:+94710672207" className="transition-colors hover:text-primary">
                 071 067 2207
-              </a>
-            </li>
-            <li className="flex items-start gap-2.5">
-              <Mail className="mt-0.5 size-4 shrink-0 text-primary" aria-hidden="true" />
-              <a
-                href="mailto:ameerjezme@gmail.com"
-                className="break-all transition-colors hover:text-primary"
-              >
-                ameerjezme@gmail.com
               </a>
             </li>
             <li className="flex items-start gap-2.5">

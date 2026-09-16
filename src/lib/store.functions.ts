@@ -124,10 +124,14 @@ export const createOrder = createServerFn({ method: "POST" })
         payment_method: "Cash on Delivery",
         order_status: "new",
       })
-      .select("id")
+      .select("*")
       .single();
 
     if (error) throw new Error(error.message);
+
+    const { notifyOrder } = await import("./email.server");
+    await notifyOrder(inserted as never, "new");
+
     return { id: inserted.id };
   });
 

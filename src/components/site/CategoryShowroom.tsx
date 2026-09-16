@@ -15,11 +15,11 @@ export function CategoryShowroom({
     <div className="showroom-bg relative overflow-hidden px-4 py-14 sm:py-20">
       <div className="mx-auto max-w-6xl text-center">
         <p className="text-xs font-semibold uppercase tracking-[0.3em] text-accent">
-          Welcome to the showroom
+          Ten departments
         </p>
-        <h1 className="mt-4 font-display text-3xl font-extrabold leading-tight sm:text-5xl">
+        <h2 className="mt-4 font-display text-3xl font-extrabold leading-tight sm:text-5xl">
           Choose a <span className="text-gradient">category</span> to step inside
-        </h1>
+        </h2>
         <p className="mx-auto mt-4 max-w-xl text-sm text-muted-foreground sm:text-base">
           Ten departments of ICT products, ready for cash-on-delivery ordering across the island.
         </p>

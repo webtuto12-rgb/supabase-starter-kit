@@ -212,20 +212,20 @@
 @keyframes float-tilt-a {
   0%,
   100% {
-    transform: translate3d(0, 0, 0) rotate(-7deg);
+    transform: translate3d(0, 0, 0) rotate(-4deg);
   }
   50% {
-    transform: translate3d(6px, -18px, 0) rotate(-3deg);
+    transform: translate3d(6px, -18px, 0) rotate(-1.5deg);
   }
 }
 
 @keyframes float-tilt-b {
   0%,
   100% {
-    transform: translate3d(0, 0, 0) rotate(8deg);
+    transform: translate3d(0, 0, 0) rotate(4.5deg);
   }
   50% {
-    transform: translate3d(-7px, 16px, 0) rotate(4deg);
+    transform: translate3d(-7px, 16px, 0) rotate(2deg);
   }
 }
 

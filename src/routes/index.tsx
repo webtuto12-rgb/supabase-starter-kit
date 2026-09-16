@@ -136,30 +136,34 @@ function Home() {
         </div>
       </section>
 
-      <Section title="Featured products" subtitle="Handpicked by our team" products={featured} />
+      <Section
+        id="featured"
+        title="Featured products"
+        subtitle="Handpicked by our team"
+        products={featured}
+      />
       <Section title="Best sellers" subtitle="What customers buy most" products={bestSellers} />
       <Section title="New arrivals" subtitle="Fresh in the showroom" products={newArrivals} />
-      <Section title="Special offers" subtitle="Limited-time reduced prices" products={offers} />
+      <Section title="Special offers" subtitle="Discounts, bundles and limited deals" products={offers} />
 
       <section className="mx-auto max-w-7xl px-4 py-10">
-        <h2 className="font-display text-xl font-bold sm:text-2xl">Popular categories</h2>
-        <ul className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
-          {categories.map((category) => (
-            <li key={category.id}>
+        <h2 className="font-display text-xl font-bold sm:text-2xl">Shop by brand</h2>
+        <p className="mt-1 text-sm text-muted-foreground">Trusted names we stock every day</p>
+        <ul className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-8">
+          {BRANDS.map((brand) => (
+            <li key={brand}>
               <Link
-                to="/category/$slug"
-                params={{ slug: category.slug }}
-                className="flex h-full items-center gap-3 rounded-2xl border border-border/70 bg-card p-4 transition-colors hover:border-primary/50"
+                to="/products"
+                search={{ q: brand }}
+                className="flex h-16 items-center justify-center rounded-2xl border border-border/70 bg-card px-3 text-sm font-semibold shadow-sm transition-colors hover:border-primary/50 hover:text-primary"
               >
-                <span className="text-2xl" aria-hidden="true">
-                  {category.icon}
-                </span>
-                <span className="text-sm font-semibold leading-snug">{category.category_name}</span>
+                {brand}
               </Link>
             </li>
           ))}
         </ul>
       </section>
+
 
       <section className="mx-auto max-w-7xl px-4 py-10">
         <h2 className="font-display text-xl font-bold sm:text-2xl">Why choose us</h2>

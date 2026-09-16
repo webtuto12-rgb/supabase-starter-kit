@@ -686,6 +686,15 @@ function ProductsPanel({
               <Pencil className="size-3.5" aria-hidden="true" /> Edit
             </Button>
             <Button
+              variant="outline"
+              size="sm"
+              className="rounded-full"
+              disabled={duplicateMutation.isPending}
+              onClick={() => duplicateMutation.mutate([product.id])}
+            >
+              <Copy className="size-3.5" aria-hidden="true" /> Duplicate
+            </Button>
+            <Button
               variant="ghost"
               size="sm"
               className="text-destructive hover:text-destructive"

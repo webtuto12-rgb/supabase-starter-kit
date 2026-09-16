@@ -70,9 +70,8 @@ const ART: Record<string, PodArt> = {
 
 function ShowroomPod({ category, index }: { category: Category; index: number }) {
   const art = ART[category.slug];
-  const fallback = ICONS[category.slug];
-  const FallbackIcon = fallback?.icon;
-  const tagline = art?.tagline ?? fallback?.tagline ?? "Explore the range";
+  const image = art?.image ?? category.card_image ?? category.category_image;
+  const tagline = art?.tagline ?? category.description ?? "Explore the range";
   return (
     <Link
       to="/category/$slug"

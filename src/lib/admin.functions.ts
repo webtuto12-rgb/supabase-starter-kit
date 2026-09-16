@@ -134,11 +134,17 @@ export const updateOrderStatus = createServerFn({ method: "POST" })
   )
   .handler(async ({ data, context }) => {
     await assertAdmin(context);
-    const { error } = await context.supabase
+    const { data: updated, error } = await context.supabase
       .from("orders")
       .update({ order_status: data.order_status })
-      .eq("id", data.id);
+      .eq("id", data.id)
+      .select("*")
+      .single();
     if (error) throw new Error(error.message);
+
+    const { notifyOrder } = await import("./email.server");
+    await notifyOrder(updated as never, data.order_status);
+
     return { ok: true };
   });
 

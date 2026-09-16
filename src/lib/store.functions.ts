@@ -105,7 +105,10 @@ export const createOrder = createServerFn({ method: "POST" })
     const subtotal = lineItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
     const total = subtotal + DELIVERY_CHARGE;
 
-    const { data: inserted, error } = await supabase
+    // Insert with the service-role client: the anon role may insert but cannot
+    // read orders back, and PostgREST needs to return the new row's id.
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { data: inserted, error } = await supabaseAdmin
       .from("orders")
       .insert({
         customer_name: data.customer_name,

@@ -1,13 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import {
-  ArrowRight,
-  Building2,
-  Camera,
-  ChevronDown,
-  Mouse,
-  Smartphone,
-  Sparkles,
-} from "lucide-react";
+import { ArrowRight, ChevronDown, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { Category } from "@/lib/store";
 import laptopObject from "@/assets/obj-laptop.png";
@@ -16,6 +8,10 @@ import gamingObject from "@/assets/obj-gaming.png";
 import routerObject from "@/assets/obj-router.png";
 import printerObject from "@/assets/obj-printer.png";
 import storageObject from "@/assets/obj-storage.png";
+import accessoriesObject from "@/assets/obj-accessories.png";
+import mobileObject from "@/assets/obj-mobile.png";
+import cctvObject from "@/assets/obj-cctv.png";
+import officeObject from "@/assets/obj-office.png";
 
 type PodArt = { image: string; alt: string; tagline: string };
 
@@ -50,13 +46,26 @@ const ART: Record<string, PodArt> = {
     alt: "Floating NVMe SSD and RAM module",
     tagline: "SSD, HDD & RAM",
   },
-};
-
-const ICONS: Record<string, { icon: typeof Mouse; tagline: string }> = {
-  accessories: { icon: Mouse, tagline: "Keyboards, mice & more" },
-  "mobile-accessories": { icon: Smartphone, tagline: "Chargers, cables, cases" },
-  "cctv-smart": { icon: Camera, tagline: "Secure & automate" },
-  "office-solutions": { icon: Building2, tagline: "Equip your workspace" },
+  accessories: {
+    image: accessoriesObject,
+    alt: "Keyboard, mouse, headset and webcam collection",
+    tagline: "Keyboards, mice & more",
+  },
+  "mobile-accessories": {
+    image: mobileObject,
+    alt: "Power bank, charger, cables and earbuds",
+    tagline: "Chargers, cables, power banks",
+  },
+  "cctv-smart": {
+    image: cctvObject,
+    alt: "CCTV dome camera, bullet camera and smart hub",
+    tagline: "Secure & automate",
+  },
+  "office-solutions": {
+    image: officeObject,
+    alt: "Office desktop computer, scanner and UPS",
+    tagline: "Equip your workspace",
+  },
 };
 
 function ShowroomPod({ category, index }: { category: Category; index: number }) {

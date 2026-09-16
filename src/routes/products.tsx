@@ -4,9 +4,10 @@ import { storefrontQuery } from "@/lib/queries";
 import { ProductBrowser } from "@/components/site/ProductBrowser";
 
 export const Route = createFileRoute("/products")({
-  validateSearch: (search: Record<string, unknown>) => ({
-    q: typeof search["q"] === "string" ? search["q"].slice(0, 80) : undefined,
-  }),
+  validateSearch: (search: Record<string, unknown>): { q?: string } =>
+    typeof search["q"] === "string" && search["q"].length > 0
+      ? { q: search["q"].slice(0, 80) }
+      : {},
   loader: ({ context }) => context.queryClient.ensureQueryData(storefrontQuery),
   head: () => ({
     meta: [

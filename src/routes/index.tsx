@@ -5,6 +5,7 @@ import {
   BadgeCheck,
   Headphones,
   MessageCircle,
+  Sparkles,
   Star,
   Truck,
   Wallet,
@@ -114,17 +115,12 @@ function Home() {
       <HeroEntry categories={categories} />
 
       <section className="mx-auto mt-6 max-w-7xl px-4">
-        <div className="relative overflow-hidden rounded-3xl border border-border/70">
-          <img
-            src={heroImage}
-            alt="Laptop, curved monitor and router in a blue-lit technology showroom"
-            width={1600}
-            height={1008}
-            className="h-[380px] w-full object-cover sm:h-[460px]"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/70 to-background/10" />
-          <div className="absolute inset-x-0 bottom-0 p-6 sm:p-10">
-            <h2 className="max-w-xl font-display text-2xl font-extrabold leading-tight sm:text-4xl">
+        <div className="grid overflow-hidden rounded-3xl border border-border/70 bg-gradient-to-br from-primary/5 via-card to-accent/10 shadow-[0_24px_60px_-30px_hsl(var(--primary)/0.25)] lg:grid-cols-2">
+          <div className="flex flex-col justify-center p-6 sm:p-10 lg:py-16">
+            <span className="inline-flex w-fit items-center gap-1.5 rounded-full border border-primary/20 bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
+              <Sparkles className="size-3.5" aria-hidden="true" /> Premium ICT showroom
+            </span>
+            <h2 className="mt-4 font-display text-2xl font-extrabold leading-tight sm:text-4xl">
               Technology, <span className="text-gradient">beautifully delivered</span>
             </h2>
             <p className="mt-3 max-w-lg text-sm text-muted-foreground sm:text-base">
@@ -139,6 +135,16 @@ function Home() {
               </Button>
               <WhatsAppButton message="Hello, I would like to place an order." />
             </div>
+          </div>
+          <div className="relative min-h-56 lg:min-h-0">
+            <img
+              src={heroImage}
+              alt="Laptop, curved monitor and router in a blue-lit technology showroom"
+              width={1600}
+              height={1008}
+              className="absolute inset-0 h-full w-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-r from-card via-card/20 to-transparent max-lg:bg-gradient-to-t" />
           </div>
         </div>
       </section>

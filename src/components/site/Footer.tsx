@@ -3,7 +3,6 @@ import {
   ArrowRight,
   BadgeCheck,
   Headphones,
-  Mail,
   MapPin,
   MessageCircle,
   Phone,

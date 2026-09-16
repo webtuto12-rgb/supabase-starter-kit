@@ -1,9 +1,16 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { ArrowRight, BadgeCheck, Headphones, Star, Truck, Wallet } from "lucide-react";
+import {
+  ArrowRight,
+  BadgeCheck,
+  Headphones,
+  MessageCircle,
+  Star,
+  Truck,
+  Wallet,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { storefrontQuery } from "@/lib/queries";
-import { CategoryShowroom } from "@/components/site/CategoryShowroom";
 import { HeroEntry } from "@/components/site/HeroEntry";
 import { ProductCard } from "@/components/site/ProductCard";
 import { WhatsAppButton } from "@/components/site/WhatsAppButton";
@@ -167,7 +174,7 @@ function Home() {
 
       <section className="mx-auto max-w-7xl px-4 py-10">
         <h2 className="font-display text-xl font-bold sm:text-2xl">Why choose us</h2>
-        <ul className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        <ul className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
           {WHY.map((item) => (
             <li key={item.title} className="rounded-2xl border border-border/70 bg-card p-5">
               <item.icon className="size-6 text-accent" aria-hidden="true" />

@@ -5,6 +5,7 @@ import {
   BadgeCheck,
   Headphones,
   MessageCircle,
+  Sparkles,
   Star,
   Truck,
   Wallet,

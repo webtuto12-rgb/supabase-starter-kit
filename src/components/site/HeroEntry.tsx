@@ -89,30 +89,22 @@ function ShowroomPod({ category, index }: { category: Category; index: number })
             aria-hidden="true"
             className="pointer-events-none absolute inset-x-6 bottom-3 h-6 rounded-full bg-primary/20 blur-xl"
           />
-          {art ? (
-            <img
-              src={art.image}
-              alt={art.alt}
-              loading="lazy"
-              width={816}
-              height={816}
-              className="relative mx-auto h-16 w-auto object-contain drop-shadow-[0_14px_22px_rgba(30,58,138,0.28)] transition-transform duration-500 group-hover:scale-105 sm:h-20 lg:h-24"
-            />
-          ) : (
-            <span className="relative flex h-16 items-center justify-center transition-transform duration-500 group-hover:scale-105 sm:h-20 lg:h-24">
-              {FallbackIcon ? (
-                <FallbackIcon
-                  className="size-10 text-primary sm:size-12"
-                  strokeWidth={1.4}
-                  aria-hidden="true"
-                />
-              ) : (
-                <span className="text-4xl sm:text-5xl" aria-hidden="true">
-                  {category.icon}
-                </span>
-              )}
-            </span>
-          )}
+          <span className="relative flex h-16 items-center justify-center sm:h-20 lg:h-24">
+            {image ? (
+              <img
+                src={image}
+                alt={art?.alt ?? category.category_name}
+                loading="lazy"
+                width={816}
+                height={816}
+                className="mx-auto h-full w-auto object-contain drop-shadow-[0_14px_22px_rgba(30,58,138,0.28)] transition-transform duration-500 group-hover:scale-105"
+              />
+            ) : (
+              <span className="text-4xl sm:text-5xl" aria-hidden="true">
+                {category.icon}
+              </span>
+            )}
+          </span>
           <span className="relative mt-2 block text-center text-[11px] font-semibold leading-tight sm:text-sm">
             {category.category_name}
           </span>

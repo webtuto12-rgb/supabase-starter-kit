@@ -34,6 +34,7 @@ export type Product = {
   is_best_seller: boolean;
   is_new_arrival: boolean;
   is_special_offer: boolean;
+  is_active?: boolean;
 };
 
 export type OrderItem = {

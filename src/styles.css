@@ -306,8 +306,8 @@
 
 @utility tech-grid {
   background-image:
-    linear-gradient(color-mix(in oklab, white 5%, transparent) 1px, transparent 1px),
-    linear-gradient(90deg, color-mix(in oklab, white 5%, transparent) 1px, transparent 1px);
+    linear-gradient(color-mix(in oklab, var(--primary) 10%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in oklab, var(--primary) 10%, transparent) 1px, transparent 1px);
   background-size: 64px 64px;
   mask-image: radial-gradient(ellipse at 50% 45%, black 10%, transparent 72%);
 }

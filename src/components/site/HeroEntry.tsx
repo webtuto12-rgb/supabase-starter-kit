@@ -67,7 +67,7 @@ const PODS: Pod[] = [
     tagline: "Print, scan, copy",
     image: printerObject,
     alt: "Floating all-in-one office printer",
-    place: "lg:absolute lg:left-[27%] lg:top-[1%] lg:w-40 xl:w-44",
+    place: "lg:absolute lg:left-[23%] lg:top-[-4%] lg:w-36 xl:w-40",
     float: "float-b",
     delay: "2s",
   },
@@ -77,7 +77,7 @@ const PODS: Pod[] = [
     tagline: "SSD, HDD & RAM",
     image: storageObject,
     alt: "Floating NVMe SSD and RAM module",
-    place: "lg:absolute lg:right-[27%] lg:bottom-[1%] lg:w-40 xl:w-44",
+    place: "lg:absolute lg:right-[23%] lg:bottom-[-4%] lg:w-36 xl:w-40",
     float: "float-a",
     delay: "2.4s",
   },
@@ -138,7 +138,7 @@ export function HeroEntry() {
         <div className="absolute inset-x-[10%] bottom-10 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
       </div>
 
-      <div className="relative mx-auto w-full max-w-7xl lg:min-h-[38rem]">
+      <div className="relative mx-auto w-full max-w-7xl lg:min-h-[42rem]">
         {/* Centre message */}
         <div className="relative z-10 mx-auto max-w-2xl px-1 text-center lg:py-24">
           <p

@@ -188,7 +188,7 @@ export function HeroEntry() {
         </div>
 
         {/* Floating product objects: grid on mobile, orbiting the message on desktop */}
-        <div className="relative mt-10 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:mt-0 lg:block">
+        <div className="relative mt-10 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:mt-0 lg:absolute lg:inset-0 lg:block">
           {PODS.map((pod, index) => (
             <ShowroomPod key={pod.slug} pod={pod} index={index} />
           ))}

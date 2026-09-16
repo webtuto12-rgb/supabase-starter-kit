@@ -80,11 +80,18 @@ const REVIEWS = [
 ];
 
 const WHY = [
-  { icon: BadgeCheck, title: "Genuine products", text: "Authentic stock with manufacturer warranty." },
-  { icon: Truck, title: "Island-wide delivery", text: `Flat ${formatPrice(DELIVERY_CHARGE)} delivery on every order.` },
+  { icon: BadgeCheck, title: "Genuine ICT products", text: "Authentic stock with manufacturer warranty." },
+  {
+    icon: Truck,
+    title: "Island-wide delivery",
+    text: `Flat ${formatPrice(DELIVERY_CHARGE)} delivery charge on every order, paid by the customer.`,
+  },
   { icon: Wallet, title: "Cash on delivery", text: "Pay only when your order reaches your door." },
-  { icon: Headphones, title: "Real support", text: "Talk to a specialist on WhatsApp before you buy." },
+  { icon: MessageCircle, title: "WhatsApp ordering", text: "Send your order on WhatsApp in one tap." },
+  { icon: Headphones, title: "Customer support", text: "Talk to a specialist before and after you buy." },
 ];
+
+const BRANDS = ["HP", "Dell", "Lenovo", "Asus", "Logitech", "TP-Link", "Canon", "Epson"];
 
 function Home() {
   const { data } = useSuspenseQuery(storefrontQuery);

@@ -225,15 +225,29 @@ function StatCard({ label, value }: { label: string; value: string }) {
 
 function OrdersPanel({ orders, onSaved }: { orders: Order[]; onSaved: () => void }) {
   const setStatus = useServerFn(updateOrderStatus);
+  const removeOrders = useServerFn(deleteOrders);
+  const [selected, setSelected] = useState<string[]>([]);
+
   const mutation = useMutation({
     mutationFn: (input: { id: string; order_status: string }) =>
       setStatus({ data: input as never }),
     onSuccess: () => {
-      toast.success("Order updated");
+      toast.success("Order updated — emails sent");
       onSaved();
     },
     onError: (mutationError: Error) =>
       toast.error("Could not update order", { description: mutationError.message }),
+  });
+
+  const deleteMutation = useMutation({
+    mutationFn: (ids: string[]) => removeOrders({ data: { ids } }),
+    onSuccess: () => {
+      toast.success("Orders deleted");
+      setSelected([]);
+      onSaved();
+    },
+    onError: (deleteError: Error) =>
+      toast.error("Could not delete orders", { description: deleteError.message }),
   });
 
   const [filter, setFilter] = useState<string>("all");
@@ -241,6 +255,14 @@ function OrdersPanel({ orders, onSaved }: { orders: Order[]; onSaved: () => void
     () => (filter === "all" ? orders : orders.filter((order) => order.order_status === filter)),
     [orders, filter],
   );
+
+  function toggle(id: string) {
+    setSelected((current) =>
+      current.includes(id) ? current.filter((value) => value !== id) : [...current, id],
+    );
+  }
+
+  const allSelected = visible.length > 0 && visible.every((order) => selected.includes(order.id));
 
   return (
     <div>
@@ -255,6 +277,34 @@ function OrdersPanel({ orders, onSaved }: { orders: Order[]; onSaved: () => void
         ))}
       </div>
 
+      {visible.length > 0 && (
+        <div className="mt-4 flex flex-wrap items-center gap-3 rounded-2xl border border-border/70 bg-surface px-3 py-2.5">
+          <label className="flex items-center gap-2 text-xs font-semibold">
+            <Checkbox
+              checked={allSelected}
+              onCheckedChange={(checked) =>
+                setSelected(checked ? visible.map((order) => order.id) : [])
+              }
+            />
+            Select all ({visible.length})
+          </label>
+          <span className="text-xs text-muted-foreground">{selected.length} selected</span>
+          <Button
+            variant="destructive"
+            size="sm"
+            className="ml-auto rounded-full"
+            disabled={selected.length === 0 || deleteMutation.isPending}
+            onClick={() => {
+              if (window.confirm(`Delete ${selected.length} order(s)? This cannot be undone.`)) {
+                deleteMutation.mutate(selected);
+              }
+            }}
+          >
+            <Trash2 className="size-3.5" aria-hidden="true" /> Delete selected
+          </Button>
+        </div>
+      )}
+
       {visible.length === 0 && (
         <p className="mt-6 text-sm text-muted-foreground">No orders in this list yet.</p>
       )}
@@ -263,19 +313,27 @@ function OrdersPanel({ orders, onSaved }: { orders: Order[]; onSaved: () => void
         {visible.map((order) => (
           <li key={order.id} className="rounded-2xl border border-border/70 bg-card p-4">
             <div className="flex flex-wrap items-start justify-between gap-3">
-              <div>
-                <p className="font-display text-sm font-bold">#{order.order_number}</p>
-                <p className="text-sm text-muted-foreground">
-                  {order.customer_name} • {order.phone}
-                  {order.email ? ` • ${order.email}` : ""}
-                </p>
-                <p className="text-sm text-muted-foreground">
-                  {order.address}
-                  {order.city ? `, ${order.city}` : ""}
-                </p>
-                {order.notes && (
-                  <p className="mt-1 text-xs text-muted-foreground">Notes: {order.notes}</p>
-                )}
+              <div className="flex gap-3">
+                <Checkbox
+                  className="mt-1"
+                  checked={selected.includes(order.id)}
+                  onCheckedChange={() => toggle(order.id)}
+                  aria-label={`Select order ${order.order_number}`}
+                />
+                <div>
+                  <p className="font-display text-sm font-bold">#{order.order_number}</p>
+                  <p className="text-sm text-muted-foreground">
+                    {order.customer_name} • {order.phone}
+                    {order.email ? ` • ${order.email}` : ""}
+                  </p>
+                  <p className="text-sm text-muted-foreground">
+                    {order.address}
+                    {order.city ? `, ${order.city}` : ""}
+                  </p>
+                  {order.notes && (
+                    <p className="mt-1 text-xs text-muted-foreground">Notes: {order.notes}</p>
+                  )}
+                </div>
               </div>
               <div className="text-right">
                 <p className="font-display text-base font-bold">
@@ -298,7 +356,7 @@ function OrdersPanel({ orders, onSaved }: { orders: Order[]; onSaved: () => void
               ))}
             </ul>
 
-            <div className="mt-4 flex items-center gap-3">
+            <div className="mt-4 flex flex-wrap items-center gap-3">
               <Label className="text-xs text-muted-foreground">Status</Label>
               <Select
                 value={order.order_status}
@@ -315,6 +373,18 @@ function OrdersPanel({ orders, onSaved }: { orders: Order[]; onSaved: () => void
                   ))}
                 </SelectContent>
               </Select>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="ml-auto text-destructive hover:text-destructive"
+                onClick={() => {
+                  if (window.confirm(`Delete order #${order.order_number}?`)) {
+                    deleteMutation.mutate([order.id]);
+                  }
+                }}
+              >
+                <Trash2 className="size-3.5" aria-hidden="true" /> Delete
+              </Button>
             </div>
           </li>
         ))}

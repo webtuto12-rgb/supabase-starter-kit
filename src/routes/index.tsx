@@ -31,17 +31,19 @@ export const Route = createFileRoute("/")({
 });
 
 function Section({
+  id,
   title,
   subtitle,
   products,
 }: {
+  id?: string;
   title: string;
   subtitle: string;
   products: Product[];
 }) {
   if (products.length === 0) return null;
   return (
-    <section className="mx-auto max-w-7xl px-4 py-10">
+    <section id={id} className="mx-auto max-w-7xl scroll-mt-20 px-4 py-10">
       <div className="mb-5 flex items-end justify-between gap-4">
         <div>
           <h2 className="font-display text-xl font-bold sm:text-2xl">{title}</h2>

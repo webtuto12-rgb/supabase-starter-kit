@@ -1,5 +1,13 @@
 import { Link } from "@tanstack/react-router";
-import { ArrowRight, ChevronDown, Sparkles } from "lucide-react";
+import {
+  ArrowRight,
+  Building2,
+  Camera,
+  ChevronDown,
+  Mouse,
+  Smartphone,
+  Sparkles,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { Category } from "@/lib/store";
 import laptopObject from "@/assets/obj-laptop.png";
@@ -44,16 +52,18 @@ const ART: Record<string, PodArt> = {
   },
 };
 
-const TAGLINES: Record<string, string> = {
-  accessories: "Keyboards, mice & more",
-  "mobile-accessories": "Chargers, cables, cases",
-  "cctv-smart": "Secure & automate",
-  "office-solutions": "Equip your workspace",
+const ICONS: Record<string, { icon: typeof Mouse; tagline: string }> = {
+  accessories: { icon: Mouse, tagline: "Keyboards, mice & more" },
+  "mobile-accessories": { icon: Smartphone, tagline: "Chargers, cables, cases" },
+  "cctv-smart": { icon: Camera, tagline: "Secure & automate" },
+  "office-solutions": { icon: Building2, tagline: "Equip your workspace" },
 };
 
 function ShowroomPod({ category, index }: { category: Category; index: number }) {
   const art = ART[category.slug];
-  const tagline = art?.tagline ?? TAGLINES[category.slug] ?? "Explore the range";
+  const fallback = ICONS[category.slug];
+  const FallbackIcon = fallback?.icon;
+  const tagline = art?.tagline ?? fallback?.tagline ?? "Explore the range";
   return (
     <Link
       to="/category/$slug"
@@ -81,11 +91,18 @@ function ShowroomPod({ category, index }: { category: Category; index: number })
               className="relative mx-auto h-16 w-auto object-contain drop-shadow-[0_14px_22px_rgba(30,58,138,0.28)] transition-transform duration-500 group-hover:scale-105 sm:h-20 lg:h-24"
             />
           ) : (
-            <span
-              aria-hidden="true"
-              className="relative flex h-16 items-center justify-center text-4xl transition-transform duration-500 group-hover:scale-105 sm:h-20 sm:text-5xl lg:h-24"
-            >
-              {category.icon}
+            <span className="relative flex h-16 items-center justify-center transition-transform duration-500 group-hover:scale-105 sm:h-20 lg:h-24">
+              {FallbackIcon ? (
+                <FallbackIcon
+                  className="size-10 text-primary sm:size-12"
+                  strokeWidth={1.4}
+                  aria-hidden="true"
+                />
+              ) : (
+                <span className="text-4xl sm:text-5xl" aria-hidden="true">
+                  {category.icon}
+                </span>
+              )}
             </span>
           )}
           <span className="relative mt-2 block text-center text-[11px] font-semibold leading-tight sm:text-sm">

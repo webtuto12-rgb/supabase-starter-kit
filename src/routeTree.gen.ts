@@ -11,8 +11,12 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as CartRouteImport } from './routes/cart'
+import { Route as CheckoutRouteImport } from './routes/checkout'
 import { Route as ProductsRouteImport } from './routes/products'
 import { Route as CategorySlugRouteImport } from './routes/category.$slug'
+import { Route as OrderIdRouteImport } from './routes/order.$id'
+import { Route as PoliciesIndexRouteImport } from './routes/policies.index'
+import { Route as PoliciesSlugRouteImport } from './routes/policies.$slug'
 import { Route as ProductSlugRouteImport } from './routes/product.$slug'
 
 const IndexRoute = IndexRouteImport.update({
@@ -25,6 +29,11 @@ const CartRoute = CartRouteImport.update({
   path: '/cart',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CheckoutRoute = CheckoutRouteImport.update({
+  id: '/checkout',
+  path: '/checkout',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ProductsRoute = ProductsRouteImport.update({
   id: '/products',
   path: '/products',
@@ -33,6 +42,21 @@ const ProductsRoute = ProductsRouteImport.update({
 const CategorySlugRoute = CategorySlugRouteImport.update({
   id: '/category/$slug',
   path: '/category/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OrderIdRoute = OrderIdRouteImport.update({
+  id: '/order/$id',
+  path: '/order/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PoliciesIndexRoute = PoliciesIndexRouteImport.update({
+  id: '/policies/',
+  path: '/policies/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PoliciesSlugRoute = PoliciesSlugRouteImport.update({
+  id: '/policies/$slug',
+  path: '/policies/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProductSlugRoute = ProductSlugRouteImport.update({
@@ -44,45 +68,83 @@ const ProductSlugRoute = ProductSlugRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/cart': typeof CartRoute
+  '/checkout': typeof CheckoutRoute
   '/products': typeof ProductsRoute
   '/category/$slug': typeof CategorySlugRoute
+  '/order/$id': typeof OrderIdRoute
+  '/policies/$slug': typeof PoliciesSlugRoute
   '/product/$slug': typeof ProductSlugRoute
+  '/policies/': typeof PoliciesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/cart': typeof CartRoute
+  '/checkout': typeof CheckoutRoute
   '/products': typeof ProductsRoute
   '/category/$slug': typeof CategorySlugRoute
+  '/order/$id': typeof OrderIdRoute
+  '/policies/$slug': typeof PoliciesSlugRoute
   '/product/$slug': typeof ProductSlugRoute
+  '/policies': typeof PoliciesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/cart': typeof CartRoute
+  '/checkout': typeof CheckoutRoute
   '/products': typeof ProductsRoute
   '/category/$slug': typeof CategorySlugRoute
+  '/order/$id': typeof OrderIdRoute
+  '/policies/$slug': typeof PoliciesSlugRoute
   '/product/$slug': typeof ProductSlugRoute
+  '/policies/': typeof PoliciesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/cart' | '/products' | '/category/$slug' | '/product/$slug'
+  fullPaths:
+    | '/'
+    | '/cart'
+    | '/checkout'
+    | '/products'
+    | '/category/$slug'
+    | '/order/$id'
+    | '/policies/$slug'
+    | '/product/$slug'
+    | '/policies/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/cart' | '/products' | '/category/$slug' | '/product/$slug'
+  to:
+    | '/'
+    | '/cart'
+    | '/checkout'
+    | '/products'
+    | '/category/$slug'
+    | '/order/$id'
+    | '/policies/$slug'
+    | '/product/$slug'
+    | '/policies'
   id:
     | '__root__'
     | '/'
     | '/cart'
+    | '/checkout'
     | '/products'
     | '/category/$slug'
+    | '/order/$id'
+    | '/policies/$slug'
     | '/product/$slug'
+    | '/policies/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CartRoute: typeof CartRoute
+  CheckoutRoute: typeof CheckoutRoute
   ProductsRoute: typeof ProductsRoute
   CategorySlugRoute: typeof CategorySlugRoute
+  OrderIdRoute: typeof OrderIdRoute
+  PoliciesSlugRoute: typeof PoliciesSlugRoute
   ProductSlugRoute: typeof ProductSlugRoute
+  PoliciesIndexRoute: typeof PoliciesIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -101,6 +163,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CartRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/checkout': {
+      id: '/checkout'
+      path: '/checkout'
+      fullPath: '/checkout'
+      preLoaderRoute: typeof CheckoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/products': {
       id: '/products'
       path: '/products'
@@ -113,6 +182,27 @@ declare module '@tanstack/react-router' {
       path: '/category/$slug'
       fullPath: '/category/$slug'
       preLoaderRoute: typeof CategorySlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/order/$id': {
+      id: '/order/$id'
+      path: '/order/$id'
+      fullPath: '/order/$id'
+      preLoaderRoute: typeof OrderIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/policies/': {
+      id: '/policies/'
+      path: '/policies'
+      fullPath: '/policies/'
+      preLoaderRoute: typeof PoliciesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/policies/$slug': {
+      id: '/policies/$slug'
+      path: '/policies/$slug'
+      fullPath: '/policies/$slug'
+      preLoaderRoute: typeof PoliciesSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/product/$slug': {
@@ -128,9 +218,13 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CartRoute: CartRoute,
+  CheckoutRoute: CheckoutRoute,
   ProductsRoute: ProductsRoute,
   CategorySlugRoute: CategorySlugRoute,
+  OrderIdRoute: OrderIdRoute,
+  PoliciesSlugRoute: PoliciesSlugRoute,
   ProductSlugRoute: ProductSlugRoute,
+  PoliciesIndexRoute: PoliciesIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

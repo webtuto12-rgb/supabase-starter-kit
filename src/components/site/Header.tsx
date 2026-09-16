@@ -243,6 +243,6 @@ export function Header() {
           </div>
         </aside>
       </div>
-    </header>
+    </>
   );
 }

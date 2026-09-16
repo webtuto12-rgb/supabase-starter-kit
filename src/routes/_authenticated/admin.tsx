@@ -533,9 +533,43 @@ function ProductsPanel({
       toast.error("Could not delete product", { description: deleteError.message }),
   });
 
+  const bulkDelete = useServerFn(deleteProducts);
+  const bulkDuplicate = useServerFn(duplicateProducts);
+  const [selected, setSelected] = useState<string[]>([]);
+
+  const bulkDeleteMutation = useMutation({
+    mutationFn: (ids: string[]) => bulkDelete({ data: { ids } }),
+    onSuccess: () => {
+      toast.success("Selected products deleted");
+      setSelected([]);
+      onSaved();
+    },
+    onError: (bulkError: Error) =>
+      toast.error("Could not delete products", { description: bulkError.message }),
+  });
+
+  const duplicateMutation = useMutation({
+    mutationFn: (ids: string[]) => bulkDuplicate({ data: { ids } }),
+    onSuccess: () => {
+      toast.success("Copies created (hidden until you publish them)");
+      setSelected([]);
+      onSaved();
+    },
+    onError: (dupError: Error) =>
+      toast.error("Could not duplicate products", { description: dupError.message }),
+  });
+
   const visible = products.filter((product) =>
     `${product.product_name} ${product.brand}`.toLowerCase().includes(search.toLowerCase()),
   );
+
+  function toggle(id: string) {
+    setSelected((current) =>
+      current.includes(id) ? current.filter((value) => value !== id) : [...current, id],
+    );
+  }
+
+  const allSelected = visible.length > 0 && visible.every((product) => selected.includes(product.id));
 
   return (
     <div>
@@ -557,12 +591,56 @@ function ProductsPanel({
         </Button>
       </div>
 
+      {visible.length > 0 && (
+        <div className="mt-4 flex flex-wrap items-center gap-3 rounded-2xl border border-border/70 bg-surface px-3 py-2.5">
+          <label className="flex items-center gap-2 text-xs font-semibold">
+            <Checkbox
+              checked={allSelected}
+              onCheckedChange={(checked) =>
+                setSelected(checked ? visible.map((product) => product.id) : [])
+              }
+            />
+            Select all ({visible.length})
+          </label>
+          <span className="text-xs text-muted-foreground">{selected.length} selected</span>
+          <div className="ml-auto flex flex-wrap gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              className="rounded-full"
+              disabled={selected.length === 0 || duplicateMutation.isPending}
+              onClick={() => duplicateMutation.mutate(selected)}
+            >
+              <Copy className="size-3.5" aria-hidden="true" /> Duplicate
+            </Button>
+            <Button
+              variant="destructive"
+              size="sm"
+              className="rounded-full"
+              disabled={selected.length === 0 || bulkDeleteMutation.isPending}
+              onClick={() => {
+                if (window.confirm(`Delete ${selected.length} product(s)?`)) {
+                  bulkDeleteMutation.mutate(selected);
+                }
+              }}
+            >
+              <Trash2 className="size-3.5" aria-hidden="true" /> Delete selected
+            </Button>
+          </div>
+        </div>
+      )}
+
       <ul className="mt-5 space-y-2">
         {visible.map((product) => (
           <li
             key={product.id}
             className="flex flex-wrap items-center gap-3 rounded-2xl border border-border/70 bg-card p-3"
           >
+            <Checkbox
+              checked={selected.includes(product.id)}
+              onCheckedChange={() => toggle(product.id)}
+              aria-label={`Select ${product.product_name}`}
+            />
             <div className="min-w-0 flex-1">
               <p className="truncate text-sm font-semibold">{product.product_name}</p>
               <p className="text-xs text-muted-foreground">

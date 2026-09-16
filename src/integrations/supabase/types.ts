@@ -14,16 +14,266 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      categories: {
+        Row: {
+          card_image: string | null
+          category_image: string | null
+          category_name: string
+          created_at: string
+          description: string
+          display_order: number
+          icon: string
+          id: string
+          is_active: boolean
+          slug: string
+          updated_at: string
+        }
+        Insert: {
+          card_image?: string | null
+          category_image?: string | null
+          category_name: string
+          created_at?: string
+          description?: string
+          display_order?: number
+          icon?: string
+          id?: string
+          is_active?: boolean
+          slug: string
+          updated_at?: string
+        }
+        Update: {
+          card_image?: string | null
+          category_image?: string | null
+          category_name?: string
+          created_at?: string
+          description?: string
+          display_order?: number
+          icon?: string
+          id?: string
+          is_active?: boolean
+          slug?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      orders: {
+        Row: {
+          address: string
+          city: string
+          created_at: string
+          customer_name: string
+          delivery_charge: number
+          email: string
+          id: string
+          notes: string
+          order_number: string
+          order_status: string
+          payment_method: string
+          phone: string
+          products: Json
+          subtotal: number
+          total: number
+          updated_at: string
+        }
+        Insert: {
+          address: string
+          city?: string
+          created_at?: string
+          customer_name: string
+          delivery_charge?: number
+          email?: string
+          id?: string
+          notes?: string
+          order_number?: string
+          order_status?: string
+          payment_method?: string
+          phone: string
+          products?: Json
+          subtotal?: number
+          total?: number
+          updated_at?: string
+        }
+        Update: {
+          address?: string
+          city?: string
+          created_at?: string
+          customer_name?: string
+          delivery_charge?: number
+          email?: string
+          id?: string
+          notes?: string
+          order_number?: string
+          order_status?: string
+          payment_method?: string
+          phone?: string
+          products?: Json
+          subtotal?: number
+          total?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      products: {
+        Row: {
+          brand: string
+          category_id: string | null
+          created_at: string
+          description: string
+          discount_price: number | null
+          id: string
+          image_url: string | null
+          images: string[]
+          is_active: boolean
+          is_best_seller: boolean
+          is_featured: boolean
+          is_new_arrival: boolean
+          is_special_offer: boolean
+          model: string
+          price: number
+          processor: string | null
+          product_name: string
+          ram: string | null
+          slug: string
+          specifications: Json
+          stock: number
+          storage: string | null
+          updated_at: string
+        }
+        Insert: {
+          brand?: string
+          category_id?: string | null
+          created_at?: string
+          description?: string
+          discount_price?: number | null
+          id?: string
+          image_url?: string | null
+          images?: string[]
+          is_active?: boolean
+          is_best_seller?: boolean
+          is_featured?: boolean
+          is_new_arrival?: boolean
+          is_special_offer?: boolean
+          model?: string
+          price?: number
+          processor?: string | null
+          product_name: string
+          ram?: string | null
+          slug: string
+          specifications?: Json
+          stock?: number
+          storage?: string | null
+          updated_at?: string
+        }
+        Update: {
+          brand?: string
+          category_id?: string | null
+          created_at?: string
+          description?: string
+          discount_price?: number | null
+          id?: string
+          image_url?: string | null
+          images?: string[]
+          is_active?: boolean
+          is_best_seller?: boolean
+          is_featured?: boolean
+          is_new_arrival?: boolean
+          is_special_offer?: boolean
+          model?: string
+          price?: number
+          processor?: string | null
+          product_name?: string
+          ram?: string | null
+          slug?: string
+          specifications?: Json
+          stock?: number
+          storage?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "products_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "categories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      site_content: {
+        Row: {
+          body: string
+          content_key: string
+          content_type: string
+          created_at: string
+          data: Json
+          display_order: number
+          id: string
+          is_published: boolean
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          body?: string
+          content_key: string
+          content_type?: string
+          created_at?: string
+          data?: Json
+          display_order?: number
+          id?: string
+          is_published?: boolean
+          title?: string
+          updated_at?: string
+        }
+        Update: {
+          body?: string
+          content_key?: string
+          content_type?: string
+          created_at?: string
+          data?: Json
+          display_order?: number
+          id?: string
+          is_published?: boolean
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "moderator" | "user"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +400,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "moderator", "user"],
+    },
   },
 } as const

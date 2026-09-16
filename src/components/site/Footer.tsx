@@ -6,7 +6,6 @@ import {
   MapPin,
   MessageCircle,
   Phone,
-  ShieldCheck,
   Truck,
   Wallet,
 } from "lucide-react";

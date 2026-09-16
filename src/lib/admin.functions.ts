@@ -197,3 +197,64 @@ export const claimAdminRole = createServerFn({ method: "POST" })
     if (error) throw new Error(error.message);
     return { ok: true };
   });
+
+export const deleteOrders = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((data: unknown) =>
+    z.object({ ids: z.array(z.string().uuid()).min(1).max(200) }).parse(data),
+  )
+  .handler(async ({ data, context }) => {
+    await assertAdmin(context);
+    const { error } = await context.supabase.from("orders").delete().in("id", data.ids);
+    if (error) throw new Error(error.message);
+    return { ok: true, count: data.ids.length };
+  });
+
+export const deleteProducts = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((data: unknown) =>
+    z.object({ ids: z.array(z.string().uuid()).min(1).max(200) }).parse(data),
+  )
+  .handler(async ({ data, context }) => {
+    await assertAdmin(context);
+    const { error } = await context.supabase.from("products").delete().in("id", data.ids);
+    if (error) throw new Error(error.message);
+    return { ok: true, count: data.ids.length };
+  });
+
+export const duplicateProducts = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((data: unknown) =>
+    z.object({ ids: z.array(z.string().uuid()).min(1).max(50) }).parse(data),
+  )
+  .handler(async ({ data, context }) => {
+    await assertAdmin(context);
+    const { data: rows, error } = await context.supabase
+      .from("products")
+      .select("*")
+      .in("id", data.ids);
+    if (error) throw new Error(error.message);
+    if (!rows || rows.length === 0) throw new Error("Nothing to duplicate.");
+
+    const copies = rows.map((row: Record<string, unknown>) => {
+      const {
+        id: _id,
+        created_at: _createdAt,
+        updated_at: _updatedAt,
+        product_name,
+        slug,
+        ...rest
+      } = row;
+      const suffix = Math.random().toString(36).slice(2, 7);
+      return {
+        ...rest,
+        product_name: `${String(product_name)} (Copy)`,
+        slug: `${String(slug).slice(0, 100)}-copy-${suffix}`,
+        is_active: false,
+      };
+    });
+
+    const { error: insertError } = await context.supabase.from("products").insert(copies);
+    if (insertError) throw new Error(insertError.message);
+    return { ok: true, count: copies.length };
+  });

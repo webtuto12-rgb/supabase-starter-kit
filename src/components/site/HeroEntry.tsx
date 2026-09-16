@@ -1,13 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import {
-  ArrowRight,
-  Building2,
-  Camera,
-  ChevronDown,
-  Mouse,
-  Smartphone,
-  Sparkles,
-} from "lucide-react";
+import { ArrowRight, ChevronDown, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { Category } from "@/lib/store";
 import laptopObject from "@/assets/obj-laptop.png";
@@ -16,6 +8,10 @@ import gamingObject from "@/assets/obj-gaming.png";
 import routerObject from "@/assets/obj-router.png";
 import printerObject from "@/assets/obj-printer.png";
 import storageObject from "@/assets/obj-storage.png";
+import accessoriesObject from "@/assets/obj-accessories.png";
+import mobileObject from "@/assets/obj-mobile.png";
+import cctvObject from "@/assets/obj-cctv.png";
+import officeObject from "@/assets/obj-office.png";
 
 type PodArt = { image: string; alt: string; tagline: string };
 
@@ -50,20 +46,32 @@ const ART: Record<string, PodArt> = {
     alt: "Floating NVMe SSD and RAM module",
     tagline: "SSD, HDD & RAM",
   },
-};
-
-const ICONS: Record<string, { icon: typeof Mouse; tagline: string }> = {
-  accessories: { icon: Mouse, tagline: "Keyboards, mice & more" },
-  "mobile-accessories": { icon: Smartphone, tagline: "Chargers, cables, cases" },
-  "cctv-smart": { icon: Camera, tagline: "Secure & automate" },
-  "office-solutions": { icon: Building2, tagline: "Equip your workspace" },
+  accessories: {
+    image: accessoriesObject,
+    alt: "Keyboard, mouse, headset and webcam collection",
+    tagline: "Keyboards, mice & more",
+  },
+  "mobile-accessories": {
+    image: mobileObject,
+    alt: "Power bank, charger, cables and earbuds",
+    tagline: "Chargers, cables, power banks",
+  },
+  "cctv-smart": {
+    image: cctvObject,
+    alt: "CCTV dome camera, bullet camera and smart hub",
+    tagline: "Secure & automate",
+  },
+  "office-solutions": {
+    image: officeObject,
+    alt: "Office desktop computer, scanner and UPS",
+    tagline: "Equip your workspace",
+  },
 };
 
 function ShowroomPod({ category, index }: { category: Category; index: number }) {
   const art = ART[category.slug];
-  const fallback = ICONS[category.slug];
-  const FallbackIcon = fallback?.icon;
-  const tagline = art?.tagline ?? fallback?.tagline ?? "Explore the range";
+  const image = art?.image ?? category.card_image ?? category.category_image;
+  const tagline = art?.tagline ?? category.description ?? "Explore the range";
   return (
     <Link
       to="/category/$slug"
@@ -81,30 +89,22 @@ function ShowroomPod({ category, index }: { category: Category; index: number })
             aria-hidden="true"
             className="pointer-events-none absolute inset-x-6 bottom-3 h-6 rounded-full bg-primary/20 blur-xl"
           />
-          {art ? (
-            <img
-              src={art.image}
-              alt={art.alt}
-              loading="lazy"
-              width={816}
-              height={816}
-              className="relative mx-auto h-16 w-auto object-contain drop-shadow-[0_14px_22px_rgba(30,58,138,0.28)] transition-transform duration-500 group-hover:scale-105 sm:h-20 lg:h-24"
-            />
-          ) : (
-            <span className="relative flex h-16 items-center justify-center transition-transform duration-500 group-hover:scale-105 sm:h-20 lg:h-24">
-              {FallbackIcon ? (
-                <FallbackIcon
-                  className="size-10 text-primary sm:size-12"
-                  strokeWidth={1.4}
-                  aria-hidden="true"
-                />
-              ) : (
-                <span className="text-4xl sm:text-5xl" aria-hidden="true">
-                  {category.icon}
-                </span>
-              )}
-            </span>
-          )}
+          <span className="relative flex h-16 items-center justify-center sm:h-20 lg:h-24">
+            {image ? (
+              <img
+                src={image}
+                alt={art?.alt ?? category.category_name}
+                loading="lazy"
+                width={816}
+                height={816}
+                className="mx-auto h-full w-auto object-contain drop-shadow-[0_14px_22px_rgba(30,58,138,0.28)] transition-transform duration-500 group-hover:scale-105"
+              />
+            ) : (
+              <span className="text-4xl sm:text-5xl" aria-hidden="true">
+                {category.icon}
+              </span>
+            )}
+          </span>
           <span className="relative mt-2 block text-center text-[11px] font-semibold leading-tight sm:text-sm">
             {category.category_name}
           </span>

@@ -29,7 +29,10 @@ import { supabase } from "@/integrations/supabase/client";
 import {
   createSignedImageUrl,
   deleteCategory,
+  deleteOrders,
   deleteProduct,
+  deleteProducts,
+  duplicateProducts,
   getAdminOverview,
   saveCategory,
   saveContent,
